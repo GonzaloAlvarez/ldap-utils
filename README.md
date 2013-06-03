@@ -5,7 +5,7 @@ The following scripts are intended to ease the administration of a OpenLDAP inst
 Most scripts have the following requirements
 
 * SLAP utils
- * LDAP utils
+* LDAP utils
 
 LDAP Add Schema
 ---------------

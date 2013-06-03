@@ -1,4 +1,11 @@
 #!/bin/bash
+#
+# Add new schema to the LDAP installation
+#
+# Usage: addschema.sh schema_file
+#
+# (C) Gonzalo Alvarez, 2013
+#
 
 SLAPCAT="/usr/sbin/slapcat"
 LDAPADD="/usr/bin/ldapadd"
@@ -12,6 +19,28 @@ EOF
 fi
 
 SCHEMA_FILE="$(dirname $(readlink -f $1))/$(basename $(readlink -f $1))"
+
+if [ ! -r "$SCHEMA_FILE" ]; then
+	cat <<EOF
+The file does not exists or it is not readable.
+EOF
+	exit 1
+fi
+
+if [ ! -x "$SLAPCAT" ]; then
+	cat <<EOF
+slapcat is not installed, but it is needed. Please consider installing it.
+EOF
+	exit 1
+fi
+
+if [ ! -x "$SLAPADD" ]; then
+	cat <<EOF
+ldapadd is required. Please consider installing.
+EOF
+	exit 1;
+fi
+
 CONF_FILE="$(mktemp)"
 SCHEMA_DIR="$(mktemp -d)"
 LDIF_FILE="$(mktemp)"
